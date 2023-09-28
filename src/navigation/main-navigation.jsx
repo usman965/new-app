@@ -1,39 +1,57 @@
-import * as React from 'react';
+import  React,{useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { SplashScreen } from '../screens/splash/splash';
 import DashBoardNavigation from './dashboard-navigation';
 import { NewsDetailScreen } from '../screens/dashboard/news-detail';
-import { ScreenHeader } from '../components/shared/ScreenHeader';
-import { SafeAreaView } from 'react-native';
+import { ROUTES_NAMES } from '../config/constants/navigation';
+import { useTheme } from '../hooks/theme';
+import {Linking} from "react-native"
 
 
 const Stack = createNativeStackNavigator();
 
-const MainNavigation = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
 
-        <Stack.Screen
-          name="splash"
-          component={SplashScreen}
-          options={{headerShown:false
-        }}
-        />
-        <Stack.Screen name="dashboard" component={DashBoardNavigation} 
+const linking = {
+  prefixes: ['newsApp://'],
+  config: {
+    screens: {
+    },
+  },
+};
+
+
+const MainNavigation = () => {
+
+
+  useEffect(() => {
+    const handleDeepLink = async (event) => {
+      const { path, queryParams,url } = event;
+    };
+  
+    Linking.addEventListener('url', handleDeepLink);
+  
+    return () => {
+      Linking.removeEventListener('url', handleDeepLink);
+    };
+  }, []);
+
+
+  const {theme} = useTheme()
+  return (
+    <NavigationContainer linking={linking}>
+      <Stack.Navigator screenOptions={{
+       headerStyle:{backgroundColor:theme.backgroundColor,
+      },
+      headerTintColor: theme.textColor,
+      }}
+      >
+        <Stack.Screen name={ROUTES_NAMES.dashboard} component={DashBoardNavigation} 
         options={{headerShown:false}}
         />
 
         <Stack.Screen 
-        name='news-detail'
+        name={ROUTES_NAMES.newsDetail}
          component={NewsDetailScreen}
-
-        options={{
-            title:"advadvdv",
-            headerTitle:()=><ScreenHeader title="adff"/>
-
-        }}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,50 +1,93 @@
-import { SafeAreaView, Text, View } from "react-native"
-import { FONT_SIZES } from "../../config/constants/font-sizes"
+import { SafeAreaView, Text, TouchableOpacity, View, StyleSheet } from "react-native"
+import { FONT_SIZES } from "../../config/constants/styles"
 
 
 import SelectDropdown from 'react-native-select-dropdown'
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { KEYS } from "../../config/constants/async-storage-keys"
+import { KEYS } from "../../config/constants/async-storage"
 import { useLanguage } from "../../hooks/language"
-const languages = ["English", "اردو"]
+import localization from "../../config/locals"
+import { useRoute } from "@react-navigation/native"
+import { useEffect } from "react"
 
-export const SettingsScreen = () => {
-    const {language,changeLanguage} =  useLanguage()
+import Feather from 'react-native-vector-icons/Feather';
+import { useTheme } from "../../hooks/theme"
+
+const languages = ["English", "عربي"]
+
+export const SettingsScreen = ({ navigation }) => {
+    const { language, changeLanguage } = useLanguage()
+    const route = useRoute()
+    const { theme, toggleTheme } = useTheme()
+
+    const styles = getStyles(theme);
+
+    useEffect(() => {
+        navigation.setOptions({
+            title: localization[language][route.name],
+        })
+    }, [language])
+
+
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
             <View>
-   
-                <View>
-                    <Text style={{fontSize:FONT_SIZES.large}}>
-                        App Language
+
+                <View style={styles.settingSlice}>
+                    <Text style={styles.sliceHeading}>
+                        {localization[language]["App Language"]}
+
                     </Text>
 
                     <SelectDropdown
-                    searchInputStyle={{width:300}}
-                    defaultButtonText={language==="en"?"English":"اردو"}
+                        buttonStyle={{ backgroundColor: theme.backgroundColor,textAlign:"right" }}
+                        buttonTextStyle={{ color: theme.textColor,textAlign:"right" }}
+                        dropdownStyle={{ backgroundColor: theme.backgroundColor }}
+                        rowTextStyle={{ color: theme.textColor }}
+
+                        defaultButtonText={language === "en" ? "English" : "عربي"}
                         data={languages}
                         onSelect={(selectedItem, index) => {
-                            const lang=index === 0 ? "en" : "ur"
+                            const lang = index === 0 ? "en" : "ar"
                             changeLanguage(lang)
-                            AsyncStorage.setItem(KEYS.language,lang)
-                        }}
-
-                        buttonTextAfterSelection={(selectedItem, index) => {
-                            // text represented after item is selected
-                            // if data array is an array of objects then return selectedItem.property to render after item is selected
-                            return selectedItem
-                        }}
-                        rowTextForSelection={(item, index) => {
-                            // text represented for each item in dropdown
-                            // if data array is an array of objects then return item.property to represent item in dropdown
-                            return item
+                            AsyncStorage.setItem(KEYS.language, lang)
                         }}
                     />
+                </View>
+
+
+
+                <View style={styles.settingSlice}>
+                    <Text style={styles.sliceHeading}>
+                        {localization[language]["Theme"]}
+                    </Text>
+
+                    <TouchableOpacity onPress={() => {
+                        toggleTheme()
+                    }}>
+                        <Feather name="sun" size={25} color={theme.isLight ?   "black":"orange"} />
+                    </TouchableOpacity>
 
                 </View>
+
             </View>
 
         </SafeAreaView>
     )
 }
+
+
+
+
+const getStyles = (theme) => StyleSheet.create({
+    container: { padding: 10, flex: 1, backgroundColor: theme.backgroundColor },
+    settingSlice: { justifyContent: "space-between", flexDirection: "row", alignItems: "center", marginBottom: 20 },
+    sliceHeading: {
+        fontSize: FONT_SIZES.large,
+        color: theme.textColor
+
+    }
+
+
+})

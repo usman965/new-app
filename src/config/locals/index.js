@@ -1,10 +1,10 @@
 
 import enTranslations from  './languages/en.json';
-import urTranslations from './languages/ur.json';
+import urTranslations from './languages/ar.json';
 
 const localization={
     en:enTranslations,
-    ur:urTranslations,
+    ar:urTranslations,
 
 
 }

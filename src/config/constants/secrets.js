@@ -1,0 +1,1 @@
+export const NEWS_APP_KEY="c00e47ecfd4b4d03ad2b953fa97e7266"

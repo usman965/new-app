@@ -42,16 +42,16 @@ const MainNavigation = () => {
 
     >
       <Stack.Navigator
-        screenOptions={({ route }) => {
-          return ({
-            headerStyle: {
-              backgroundColor: theme.backgroundColor,
-            },
-            headerTintColor: theme.textColor,
-            title:"nadbvncd"
-            // headerTitle: ({ route } = () => <Text>nvndj</Text>)
-          })
-        }}
+        // screenOptions={({ route }) => {
+        //   return ({
+        //     headerStyle: {
+        //       backgroundColor: theme.backgroundColor,
+        //     },
+        //     headerTintColor: theme.textColor,
+        //     title:"nadbvncd"
+        //     // headerTitle: ({ route } = () => <Text>nvndj</Text>)
+        //   })
+        // }}
 
       >
         <Stack.Screen name={ROUTES_NAMES.dashboard} component={DashBoardNavigation}

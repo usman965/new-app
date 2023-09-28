@@ -26,7 +26,7 @@ function DashBoardNavigation() {
         headerTintColor: theme.textColor,
         // tabBarShowLabel:false,
         title:localization[language][route.name],
-        tabBarStyle:{backgroundColor:theme.backgroundColor}
+        tabBarStyle:{backgroundColor:theme.backgroundColor},
       })
     }}
     >

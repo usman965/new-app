@@ -1,23 +1,16 @@
 import React, { useEffect, useState } from "react"
 import { Image, Text, View, SafeAreaView, ScrollView, StyleSheet } from "react-native"
 import { FONT_SIZES } from "../../config/constants/styles";
-import { useLanguage } from "../../hooks/language";
-import localization from "../../config/locals";
+
 import { useTheme } from "../../hooks/theme";
 
 
 
 export const NewsDetailScreen = ({ navigation, route }) => {
     const itemDetail = useState(route.params.item)[0]
-    const { language } = useLanguage()
     const { theme } = useTheme()
     const styles = getStyles(theme);
 
-    useEffect(() => {
-        navigation.setOptions({
-            title: localization[language][route.name],
-        })
-    }, [language])
 
     return (
         <SafeAreaView style={styles.container}>

@@ -7,8 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { KEYS } from "../../config/constants/async-storage"
 import { useLanguage } from "../../hooks/language"
 import localization from "../../config/locals"
-import { useRoute } from "@react-navigation/native"
-import { useEffect } from "react"
+
 
 import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from "../../hooks/theme"
@@ -17,16 +16,11 @@ const languages = ["English", "عربي"]
 
 export const SettingsScreen = ({ navigation }) => {
     const { language, changeLanguage } = useLanguage()
-    const route = useRoute()
     const { theme, toggleTheme } = useTheme()
 
     const styles = getStyles(theme);
 
-    useEffect(() => {
-        navigation.setOptions({
-            title: localization[language][route.name],
-        })
-    }, [language])
+  
 
 
 

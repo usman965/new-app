@@ -6,10 +6,8 @@ import { NewsDetailScreen } from '../screens/dashboard/news-detail';
 import { ROUTES_NAMES } from '../config/constants/navigation';
 import { useTheme } from '../hooks/theme';
 import { Linking, Text } from "react-native"
-import { useLanguage } from '../hooks/language';
-import localization from '../config/locals';
-
-
+import { useTranslation } from "../hooks/translation"
+import { useSelector } from 'react-redux';
 const Stack = createNativeStackNavigator();
 
 
@@ -23,7 +21,10 @@ const linking = {
 
 
 const MainNavigation = () => {
-  const {language} = useLanguage()
+  const theme = useSelector(state=>state.appPrefrences.theme)
+
+  const getTranslatedSentence = useTranslation()
+
 
 
   // useEffect(() => {
@@ -39,7 +40,6 @@ const MainNavigation = () => {
   // }, []);
 
 
-  const { theme } = useTheme()
   return (
     <NavigationContainer linking={linking}>
       
@@ -50,7 +50,7 @@ const MainNavigation = () => {
               backgroundColor: theme.backgroundColor,
             },
             headerTintColor: theme.textColor,
-            title:localization[language][route.name],
+            title:getTranslatedSentence(route.name),
           })
         }}
 

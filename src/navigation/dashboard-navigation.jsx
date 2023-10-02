@@ -4,17 +4,17 @@ import { SettingsScreen } from '../screens/dashboard/settings';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import { ROUTES_NAMES } from '../config/constants/navigation';
-import { useTheme } from '../hooks/theme';
-import localization from '../config/locals';
-import { useLanguage } from '../hooks/language';
+import { useTranslation } from "../hooks/translation"
+import { useSelector } from 'react-redux';
+
 
 
 const Tab = createBottomTabNavigator();
 
 function DashBoardNavigation() {
+  const theme = useSelector(state=>state.appPrefrences.theme)
 
-  const {theme} = useTheme()
-  const { language } = useLanguage()
+  const getTranslatedSentence = useTranslation()
 
   return (
     <Tab.Navigator
@@ -25,7 +25,9 @@ function DashBoardNavigation() {
         },
         headerTintColor: theme.textColor,
         // tabBarShowLabel:false,
-        title:localization[language][route.name],
+
+        title:getTranslatedSentence(route.name),
+                
         tabBarStyle:{backgroundColor:theme.backgroundColor},
       })
     }}

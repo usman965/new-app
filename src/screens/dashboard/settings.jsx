@@ -5,24 +5,21 @@ import { FONT_SIZES } from "../../config/constants/styles"
 import SelectDropdown from 'react-native-select-dropdown'
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { KEYS } from "../../config/constants/async-storage"
-import { useLanguage } from "../../hooks/language"
-import localization from "../../config/locals"
-
+import { useTranslation } from "../../hooks/translation";
 
 import Feather from 'react-native-vector-icons/Feather';
-import { useTheme } from "../../hooks/theme"
+import { useDispatch, useSelector } from "react-redux"
+import { changeLanguage, toggleTheme } from "../../store/reducers/app-pref-slice"
 
 const languages = ["English", "عربي"]
 
 export const SettingsScreen = ({ navigation }) => {
-    const { language, changeLanguage } = useLanguage()
-    const { theme, toggleTheme } = useTheme()
+    const {theme,language} = useSelector(state => state.appPrefrences)
+
+    const dispatch =  useDispatch()
+    const getTranslatedSentence = useTranslation()
 
     const styles = getStyles(theme);
-
-  
-
-
 
     return (
         <SafeAreaView style={styles.container}>
@@ -30,7 +27,7 @@ export const SettingsScreen = ({ navigation }) => {
 
                 <View style={styles.settingSlice}>
                     <Text style={styles.sliceHeading}>
-                        {localization[language]["App Language"]}
+                        {getTranslatedSentence("App Language")}
 
                     </Text>
 
@@ -44,7 +41,10 @@ export const SettingsScreen = ({ navigation }) => {
                         data={languages}
                         onSelect={(selectedItem, index) => {
                             const lang = index === 0 ? "en" : "ar"
-                            changeLanguage(lang)
+                            dispatch(changeLanguage(lang))
+
+                            // changeLanguage(lang)
+                            
                             AsyncStorage.setItem(KEYS.language, lang)
                         }}
                     />
@@ -54,11 +54,11 @@ export const SettingsScreen = ({ navigation }) => {
 
                 <View style={styles.settingSlice}>
                     <Text style={styles.sliceHeading}>
-                        {localization[language]["Theme"]}
+                        {getTranslatedSentence("Theme")}
                     </Text>
 
                     <TouchableOpacity onPress={() => {
-                        toggleTheme()
+                        dispatch(toggleTheme())
                     }}>
                         <Feather name="sun" size={25} color={theme.isLight ?   "black":"orange"} />
                     </TouchableOpacity>

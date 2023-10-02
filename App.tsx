@@ -28,12 +28,13 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import localization from './src/config/locals';
 import { ThemeProvider } from './src/config/context-provider/theme-provider';
-import { Main } from './src/Main';
-import { SplashScreen } from './src/screens/splash/splash';
 import MainNavigation from './src/navigation/main-navigation';
 import { LanguageProvider } from './src/config/context-provider/language-provider';
+import { Provider } from 'react-redux';
+import { store,persistor } from './src/store/store';
+import { PersistGate } from 'redux-persist/integration/react';
+
 
 
 function App(): JSX.Element {
@@ -45,12 +46,18 @@ function App(): JSX.Element {
   const [selectedLanguage, setselectedLanguage] = useState("en")
 
   return (
-    
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+
+
     <ThemeProvider>
       <LanguageProvider>
       <MainNavigation/>
       </LanguageProvider>
     </ThemeProvider>
+    </PersistGate>
+
+    </Provider>
 
   );
 }

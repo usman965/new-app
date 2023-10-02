@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react"
-import { Image, Text, View, SafeAreaView, ScrollView, StyleSheet } from "react-native"
+import React, {  useState } from "react"
+import {  Text, View, SafeAreaView, ScrollView, StyleSheet, ActivityIndicator } from "react-native"
 import { FONT_SIZES } from "../../config/constants/styles";
 
-import { useTheme } from "../../hooks/theme";
+import { CustomImageView } from "../../components/shared/custom-image-view";
+import { useSelector } from "react-redux";
 
 
 
 export const NewsDetailScreen = ({ navigation, route }) => {
+    const {theme} = useSelector(state => state.appPrefrences)
+
     const itemDetail = useState(route.params.item)[0]
-    const { theme } = useTheme()
     const styles = getStyles(theme);
+
 
 
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
 
-
                 <View >
-                    <Image source={{ uri: itemDetail?.urlToImage }}
-                        resizeMode="center"
-                        style={styles.image}
-                    />
+                <CustomImageView uri={itemDetail.urlToImage}/>
+                 
 
                     <Text
                         style={styles.dateAuthor}>
@@ -53,12 +53,12 @@ export const NewsDetailScreen = ({ navigation, route }) => {
 const getStyles = (theme) => StyleSheet.create({
     container: {
         flex: 1, padding: 10,
-        backgroundColor:theme.backgroundColor
+        backgroundColor: theme.backgroundColor
     },
-    image: { height: 200, width: "auto",marginBottom:6 },
+    image: { height: 200, width: "auto", marginBottom: 6 },
     dateAuthor: { color: theme.textColor, fontSize: FONT_SIZES.extraSmall },
-    title: { color: theme.textColor, fontSize: FONT_SIZES.extraLarge, fontWeight: "bold",marginVertical:6 },
-    description: { color:theme.textColor, fontSize: FONT_SIZES.small ,marginVertical:6},
+    title: { color: theme.textColor, fontSize: FONT_SIZES.extraLarge, fontWeight: "bold", marginVertical: 6 },
+    description: { color: theme.textColor, fontSize: FONT_SIZES.small, marginVertical: 6 },
 
-   
+
 })

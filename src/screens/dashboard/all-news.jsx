@@ -1,79 +1,66 @@
 import React, { useEffect, useState } from "react"
-import { FlatList, View, SafeAreaView,  TextInput, StyleSheet, RefreshControl,Linking } from "react-native"
+import { FlatList, View, SafeAreaView, TextInput, StyleSheet, RefreshControl, Button } from "react-native"
 import NewsListItem from "../../components/all-news-screen/news-list-item";
-import httpRequest from "../../config/networking/axios-instance";
 import { Loader } from "../../components/shared/loader";
-import { useRoute } from '@react-navigation/native';
-import { useLanguage } from "../../hooks/language";
-import localization from "../../config/locals";
+import { useTranslation } from "../../hooks/translation";
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { useTheme } from "../../hooks/theme";
-import { NEWS_APP_KEY } from "../../config/constants/secrets";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllNewsAction } from "../../store/actions/get-all-news";
 
 
 export const AllNewsScreen = ({ navigation }) => {
-    const [refreshing, setRefreshing] = useState(false)
-    const [allNews, setAllNews] = useState([])
+    const dispatch = useDispatch()
+
+    const {theme,language} = useSelector(state => state.appPrefrences)
+    const allNewsState=useSelector(state=>state.getAllNews)
+    const getTranslatedSentence = useTranslation()
     const [searchString, setSearchString] = useState("")
     const [filteredNews, setFilteredNews] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
-
-    const {theme} = useTheme()
-    const { language } = useLanguage()
     const styles = getStyles(theme);
 
 
-    const getAllNews=()=>{
-        setRefreshing(true)
-        httpRequest.get(`/top-headlines?language=${language}&apiKey=${NEWS_APP_KEY}`)
-        .then(resp => {
-            setRefreshing(false)
-            setAllNews(resp?.articles)
-            setFilteredNews(resp?.articles)
-            setIsLoading(false)
-        })
-        .catch(error => {
-            setRefreshing(false)
-            setIsLoading(false)
-            console.error('Error fetching data:', error);
-        });
-    }
+
+    useEffect(()=>{
+        if(allNewsState.isSuccess){
+            setFilteredNews(allNewsState.data)
+
+        }
+
+    },[allNewsState.isSuccess])
+
     useEffect(() => {
-        getAllNews()
+        if (language) dispatch(getAllNewsAction(language))
 
     }, [language])
 
 
     useEffect(() => {
-        const filteredItems = allNews.filter(item => item.title.toLowerCase().includes(searchString.toLowerCase()))
+        const filteredItems = allNewsState.data.filter(item => item.title.toLowerCase().includes(searchString.toLowerCase()))
         setFilteredNews(filteredItems)
     }, [searchString])
 
+    if (allNewsState.isLoading) return <Loader />
 
     return (
         <SafeAreaView style={styles.container}>
-            {
-                isLoading && <Loader />
-            }
             <View >
-         
                 <View style={styles.searchContainer}>
                     <TextInput
-                        placeholder=  {localization[language]["Search By Title"]}
+                        placeholder={getTranslatedSentence("Search By Title")}
                         value={searchString}
                         onChangeText={(value) => {
                             setSearchString(value)
                         }}
                         style={styles.textInput}
                         placeholderTextColor={theme.textColor}
-                        />
-                    <AntDesign name="search1" size={25} color={theme.textColor}/>
+                    />
+                    <AntDesign name="search1" size={25} color={theme.textColor} />
                 </View>
                 <FlatList
                     renderItem={({ item }) => <NewsListItem item={item} />}
                     data={filteredNews}
                     refreshControl={
-                        <RefreshControl refreshing={refreshing} onRefresh={getAllNews} />
+                        <RefreshControl refreshing={allNewsState.isLoading} onRefresh={()=>{dispatch(getAllNewsAction(language))}} />
                     }
                 />
             </View>
@@ -82,8 +69,8 @@ export const AllNewsScreen = ({ navigation }) => {
 }
 
 
-const getStyles = (theme) =>   StyleSheet.create({
-    container:{padding:10,backgroundColor:theme.backgroundColor},
+const getStyles = (theme) => StyleSheet.create({
+    container: { padding: 10, backgroundColor: theme.backgroundColor, flex: 1 },
     searchContainer: {
         flexDirection: "row",
         alignItems: "center",
@@ -93,11 +80,11 @@ const getStyles = (theme) =>   StyleSheet.create({
         marginBottom: 6,
         justifyContent: "space-between",
         paddingHorizontal: 6,
-        backgroundColor:theme.backgroundColor
+        backgroundColor: theme.backgroundColor
     },
-    textInput:{
-        color:theme.textColor,
-        minHeight:50
+    textInput: {
+        color: theme.textColor,
+        minHeight: 50
     }
 
 })

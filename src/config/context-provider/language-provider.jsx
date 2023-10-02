@@ -6,11 +6,14 @@ import { Alert } from 'react-native';
 export const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
-  const [language, setLanguage] = useState("en");
+  const [language, setLanguage] = useState(null);
 
   useEffect( ()=>{
     AsyncStorage.getItem(KEYS.language).then(resp=>{
         setLanguage(resp??"en")
+
+    }).catch(err=>{
+      setLanguage("en")
     })
   },[])
   const changeLanguage=(language)=>{

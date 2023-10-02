@@ -1,13 +1,16 @@
 import React, { memo } from "react"
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native"
+import { View, Text,  TouchableOpacity, StyleSheet } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { ROUTES_NAMES } from "../../config/constants/navigation"
-import { useTheme } from "../../hooks/theme"
+import { CustomImageView } from "../shared/custom-image-view"
+import { useSelector } from "react-redux"
 
 
 const NewsListItem = memo(({ item }) => {
+    const theme = useSelector(state=>state.appPrefrences.theme)
+
+
     const navigation = useNavigation()
-    const { theme } = useTheme()
     const styles = getStyles(theme);
 
     return (
@@ -21,8 +24,8 @@ const NewsListItem = memo(({ item }) => {
                 <Text style={styles.textTitle}>
                     {item.title}
                 </Text></TouchableOpacity>
-            <Image source={{ uri: item.urlToImage }}
-                resizeMode="center" style={styles.image} />
+
+            <CustomImageView uri={item.urlToImage} />
 
         </View>
     )

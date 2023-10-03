@@ -1,5 +1,5 @@
 import { Text, View, ActivityIndicator } from "react-native"
-import { FONT_SIZES } from "../../config/constants/styles"
+import { FONT_SIZES } from "config/constants/styles"
 
 export const Loader = () => {
     return (

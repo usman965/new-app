@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DashBoardNavigation from './dashboard-navigation';
-import { NewsDetailScreen } from '../screens/dashboard/news-detail';
-import { ROUTES_NAMES } from '../config/constants/navigation';
+import { NewsDetailScreen } from 'screens/dashboard/news-detail';
+import { ROUTES_NAMES } from 'config/constants/navigation';
 import { Linking } from "react-native"
-import { useTranslation } from "../hooks/translation"
+import { useTranslation } from "hooks/translation"
 import { useSelector } from 'react-redux';
 const Stack = createNativeStackNavigator();
 
@@ -36,8 +36,6 @@ const MainNavigation = () => {
 
   const getTranslatedSentence = useTranslation()
 
-
-
   useEffect(() => {
     const handleDeepLink = (event) => {
       const { path, queryParams, url } = event;
@@ -52,7 +50,6 @@ const MainNavigation = () => {
 
     };
   }, []);
-
 
   return (
     <NavigationContainer linking={linking}>

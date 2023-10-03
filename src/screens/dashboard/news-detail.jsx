@@ -1,8 +1,8 @@
 import React, {  useState } from "react"
 import {  Text, View, SafeAreaView, ScrollView, StyleSheet, ActivityIndicator } from "react-native"
-import { FONT_SIZES } from "../../config/constants/styles";
+import { FONT_SIZES } from "config/constants/styles";
 
-import { CustomImageView } from "../../components/shared/custom-image-view";
+import { CustomImageView } from "components/shared/custom-image-view";
 import { useSelector } from "react-redux";
 
 

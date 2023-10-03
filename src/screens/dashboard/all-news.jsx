@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { FlatList, View, SafeAreaView, TextInput, StyleSheet, RefreshControl, Button } from "react-native"
-import NewsListItem from "../../components/all-news-screen/news-list-item";
-import { Loader } from "../../components/shared/loader";
-import { useTranslation } from "../../hooks/translation";
+import NewsListItem from "components/all-news-screen/news-list-item";
+import { Loader } from "components/shared/loader";
+import { useTranslation } from "hooks/translation";
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useDispatch, useSelector } from "react-redux";
 import { getAllNewsAction } from "../../store/actions/get-all-news";

@@ -1,7 +1,7 @@
 import React, { memo } from "react"
 import { View, Text,  TouchableOpacity, StyleSheet } from "react-native"
 import { useNavigation } from "@react-navigation/native"
-import { ROUTES_NAMES } from "../../config/constants/navigation"
+import { ROUTES_NAMES } from "config/constants/navigation"
 import { CustomImageView } from "../shared/custom-image-view"
 import { useSelector } from "react-redux"
 

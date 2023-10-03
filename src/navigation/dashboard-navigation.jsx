@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AllNewsScreen } from '../screens/dashboard/all-news';
-import { SettingsScreen } from '../screens/dashboard/settings';
+import { AllNewsScreen } from 'screens/dashboard/all-news';
+import { SettingsScreen } from 'screens/dashboard/settings';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import { ROUTES_NAMES } from '../config/constants/navigation';
-import { useTranslation } from "../hooks/translation"
+import { ROUTES_NAMES } from 'config/constants/navigation';
+import { useTranslation } from "hooks/translation"
 import { useSelector } from 'react-redux';
 
 

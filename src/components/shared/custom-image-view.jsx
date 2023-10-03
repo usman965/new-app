@@ -1,6 +1,6 @@
 import { ActivityIndicator, Image, Text, View,StyleSheet } from "react-native"
 import { memo, useState } from "react"
-import { FONT_SIZES } from "../../config/constants/styles";
+import { FONT_SIZES } from "config/constants/styles";
 import { useSelector } from "react-redux";
 
 export const CustomImageView =memo ( ({ uri = null }) => {

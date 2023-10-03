@@ -15,7 +15,6 @@ const languages = ["English", "عربي"]
 
 export const SettingsScreen = ({ navigation }) => {
     const {theme,language} = useSelector(state => state.appPrefrences)
-    console.log(language );
 
     const dispatch =  useDispatch()
     const getTranslatedSentence = useTranslation()

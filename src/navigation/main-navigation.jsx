@@ -4,8 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DashBoardNavigation from './dashboard-navigation';
 import { NewsDetailScreen } from '../screens/dashboard/news-detail';
 import { ROUTES_NAMES } from '../config/constants/navigation';
-import { useTheme } from '../hooks/theme';
-import { Linking, Text } from "react-native"
+import { Linking } from "react-native"
 import { useTranslation } from "../hooks/translation"
 import { useSelector } from 'react-redux';
 const Stack = createNativeStackNavigator();
@@ -17,23 +16,23 @@ const linking = {
   config: {
     initialRouteName: ROUTES_NAMES.allNews,
     screens: {
-      Dashboard:{
-        screens:{
-          Settings:"my-settings", // my-settings is the key to open Settings page
-          [ROUTES_NAMES.allNews]:"all-news/id"
+      Dashboard: {
+        screens: {
+          Settings: "my-settings", // my-settings is the key to open Settings page
+          [ROUTES_NAMES.allNews]: "all-news"
         },
-      
+
       },
-      [ROUTES_NAMES.newsDetail]:"news-detail"
+      [ROUTES_NAMES.newsDetail]: "news-detail"
     },
-  
+
   },
 };
 
 
 
 const MainNavigation = () => {
-  const theme = useSelector(state=>state.appPrefrences.theme)
+  const theme = useSelector(state => state.appPrefrences.theme)
 
   const getTranslatedSentence = useTranslation()
 
@@ -41,18 +40,15 @@ const MainNavigation = () => {
 
   useEffect(() => {
     const handleDeepLink = (event) => {
-      const { path, queryParams,url } = event;
-      console.log("event    ",  event);
-      console.log("event    ",  path);
-      console.log("event    ",  queryParams);
-      console.log("event    ",  url);
+      const { path, queryParams, url } = event;
+      console.log("event    ", event);
 
     };
 
-   const urlListener =  Linking.addEventListener('url', handleDeepLink)
+    const urlListener = Linking.addEventListener('url', handleDeepLink)
 
     return () => {
-        if(urlListener) urlListener.remove()
+      if (urlListener) urlListener.remove()
 
     };
   }, []);
@@ -60,7 +56,7 @@ const MainNavigation = () => {
 
   return (
     <NavigationContainer linking={linking}>
-      
+
       <Stack.Navigator
         screenOptions={({ route }) => {
           return ({
@@ -68,13 +64,13 @@ const MainNavigation = () => {
               backgroundColor: theme.backgroundColor,
             },
             headerTintColor: theme.textColor,
-            title:getTranslatedSentence(route.name),
+            title: getTranslatedSentence(route.name),
           })
         }}
 
       >
         <Stack.Screen name={ROUTES_NAMES.dashboard} component={DashBoardNavigation}
-        options={{ headerShown: false }}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen

@@ -11,21 +11,21 @@ const getAllNews = createSlice(
     {
         name: "news",
         initialState,
-        extraReducers: {
-            [getAllNewsAction.pending]: (state, action) => {
+        extraReducers: buiilder => {
+            buiilder.addCase(getAllNewsAction.pending, (state, action) => {
                 state.isLoading = true;
-            },
-            [getAllNewsAction.fulfilled]: (state, action) => {
-                state.data = action.payload;
-                state.isLoading = false;
-                state.isSuccess = true
+            }),
+                buiilder.addCase(getAllNewsAction.fulfilled, (state, action) => {
+                    state.data = action.payload;
+                    state.isLoading = false;
+                    state.isSuccess = true
 
-            },
-            [getAllNewsAction.rejected]: (state, action) => {
-                state.errorMessage = action.payload;
-                state.isLoading = false
-                state.isSuccess = false
-            }
+                }),
+                buiilder.addCase(getAllNewsAction.rejected, (state, action) => {
+                    state.errorMessage = action.payload;
+                    state.isLoading = false
+                    state.isSuccess = false
+                })
         }
     }
 

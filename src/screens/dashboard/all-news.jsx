@@ -11,20 +11,20 @@ import { getAllNewsAction } from "../../store/actions/get-all-news";
 export const AllNewsScreen = ({ navigation }) => {
     const dispatch = useDispatch()
 
-    const {theme,language} = useSelector(state => state.appPrefrences)
-    const allNewsState=useSelector(state=>state.getAllNews)
+    const { theme, language } = useSelector(state => state.appPrefrences)
+    const allNewsState = useSelector(state => state.getAllNews)
     const getTranslatedSentence = useTranslation()
     const [searchString, setSearchString] = useState("")
     const [filteredNews, setFilteredNews] = useState([])
     const styles = getStyles(theme);
 
-    useEffect(()=>{
-        if(allNewsState.isSuccess){
+    useEffect(() => {
+        if (allNewsState.isSuccess) {
             setFilteredNews(allNewsState.data)
 
         }
 
-    },[allNewsState.isSuccess])
+    }, [allNewsState])
 
     useEffect(() => {
         if (language) dispatch(getAllNewsAction(language))
@@ -58,7 +58,7 @@ export const AllNewsScreen = ({ navigation }) => {
                     renderItem={({ item }) => <NewsListItem item={item} />}
                     data={filteredNews}
                     refreshControl={
-                        <RefreshControl refreshing={allNewsState.isLoading} onRefresh={()=>{dispatch(getAllNewsAction(language))}} />
+                        <RefreshControl refreshing={allNewsState.isLoading} onRefresh={() => { dispatch(getAllNewsAction(language)) }} />
                     }
                 />
             </View>

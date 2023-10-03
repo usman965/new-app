@@ -3,7 +3,7 @@ import {useLanguage} from "../hooks/language"
 import localization from "../config/locals";
 import { useSelector } from "react-redux";
 export const useTranslation=()=>{
-    const language = useSelector(state=>state.language)
+    const language = useSelector(state=>state.appPrefrences.language)
     
 
     const getTranslatedSentence=(sentence)=>{

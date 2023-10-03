@@ -11,13 +11,25 @@ import { useSelector } from 'react-redux';
 const Stack = createNativeStackNavigator();
 
 
+
 const linking = {
-  prefixes: ['newsApp://'],
+  prefixes: ["newsApp://"],
   config: {
+    initialRouteName: ROUTES_NAMES.allNews,
     screens: {
+      Dashboard:{
+        screens:{
+          Settings:"my-settings", // my-settings is the key to open Settings page
+          [ROUTES_NAMES.allNews]:"all-news/id"
+        },
+      
+      },
+      [ROUTES_NAMES.newsDetail]:"news-detail"
     },
+  
   },
 };
+
 
 
 const MainNavigation = () => {
@@ -27,17 +39,23 @@ const MainNavigation = () => {
 
 
 
-  // useEffect(() => {
-  //   const handleDeepLink = async (event) => {
-  //     const { path, queryParams, url } = event;
-  //   };
+  useEffect(() => {
+    const handleDeepLink = (event) => {
+      const { path, queryParams,url } = event;
+      console.log("event    ",  event);
+      console.log("event    ",  path);
+      console.log("event    ",  queryParams);
+      console.log("event    ",  url);
 
-  //   Linking.addEventListener('url', handleDeepLink);
+    };
 
-  //   return () => {
-  //     Linking.removeEventListener('url', handleDeepLink);
-  //   };
-  // }, []);
+   const urlListener =  Linking.addEventListener('url', handleDeepLink)
+
+    return () => {
+        if(urlListener) urlListener.remove()
+
+    };
+  }, []);
 
 
   return (

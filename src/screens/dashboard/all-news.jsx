@@ -18,8 +18,6 @@ export const AllNewsScreen = ({ navigation }) => {
     const [filteredNews, setFilteredNews] = useState([])
     const styles = getStyles(theme);
 
-
-
     useEffect(()=>{
         if(allNewsState.isSuccess){
             setFilteredNews(allNewsState.data)

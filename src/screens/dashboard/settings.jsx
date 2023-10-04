@@ -64,33 +64,6 @@ export const SettingsScreen = ({ navigation }) => {
                     </TouchableOpacity>
 
                 </View>
-
-
-                <View>
-
-
-                    <Text
-                        accessible={true}
-                        accessibilityLabel="Hello World"
-                        accessibilityHint="This is a greeting message"
-                        accessibilityRole="header"
-                        accessibilityState={{ selected: true }}>
-
-                        Hello World
-
-                    </Text>
-                </View>
-
-
-
-
-
-
-
-
-
-
-
             </View>
 
 

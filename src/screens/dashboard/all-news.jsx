@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { FlatList, View, SafeAreaView, TextInput, StyleSheet, RefreshControl, Button } from "react-native"
+import { FlatList, View, SafeAreaView, TextInput, StyleSheet, RefreshControl, Button, StatusBar } from "react-native"
 import NewsListItem from "components/all-news-screen/news-list-item";
 import { Loader } from "components/shared/loader";
 import { useTranslation } from "hooks/translation";
@@ -41,27 +41,27 @@ export const AllNewsScreen = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View >
-                <View style={styles.searchContainer}>
-                    <TextInput
-                        placeholder={getTranslatedSentence("Search By Title")}
-                        value={searchString}
-                        onChangeText={(value) => {
-                            setSearchString(value)
-                        }}
-                        style={styles.textInput}
-                        placeholderTextColor={theme.textColor}
-                    />
-                    <AntDesign name="search1" size={25} color={theme.textColor} />
-                </View>
-                <FlatList
-                    renderItem={({ item }) => <NewsListItem item={item} />}
-                    data={filteredNews}
-                    refreshControl={
-                        <RefreshControl refreshing={allNewsState.isLoading} onRefresh={() => { dispatch(getAllNewsAction(language)) }} />
-                    }
+            {/* <StatusBar
+            hidden/> */}
+            <View style={styles.searchContainer}>
+                <TextInput
+                    placeholder={getTranslatedSentence("Search By Title")}
+                    value={searchString}
+                    onChangeText={(value) => {
+                        setSearchString(value)
+                    }}
+                    style={styles.textInput}
+                    placeholderTextColor={theme.textColor}
                 />
+                <AntDesign name="search1" size={25} color={theme.textColor} />
             </View>
+            <FlatList
+                renderItem={({ item }) => <NewsListItem item={item} />}
+                data={filteredNews}
+                refreshControl={
+                    <RefreshControl refreshing={allNewsState.isLoading} onRefresh={() => { dispatch(getAllNewsAction(language)) }} />
+                }
+            />
         </SafeAreaView>
     )
 }
